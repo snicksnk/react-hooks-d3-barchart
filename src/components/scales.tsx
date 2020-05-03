@@ -12,22 +12,13 @@ export function x(config: ChartConfigType, lims: number[]) {
 }
 
 export function y(config: ChartConfigType, values: string[]) {
-  const configRaw = ({
-    domain: Object.keys(values), // 👀 change me!
-    paddingInner: 0.1, // 👀 me!
-    paddingOuter: 0.2, // 👀 change me!
-    round: true, // 👀 and me!
-    align: 0.5, // 👀 !
-    range: [100, Math.min(800, config.size.width - 40)] // 👀 yes
-  });
-
   const yScale = scaleBand()
-    .domain(configRaw.domain)
+    .domain(values)
     .range([0, config.size.height])
-    .paddingInner(configRaw.paddingInner)
-    .paddingOuter(configRaw.paddingOuter)
-    .align(configRaw.align)
-    .round(configRaw.round)
+    .paddingInner(0.1)
+    .paddingOuter(0.2)
+    .align(0.9)
+    .round(true)
 
   return yScale;
 }

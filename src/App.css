@@ -1,6 +1,46 @@
 .App {
-  background-color: #282c34;
+  background-color: #40425C;
   color: white;
   text-align: center;
   height: 100vh;
+}
+
+.header {
+  margin-top: 0px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  color: #b9b5b4;
+}
+
+.x-axis {
+ stroke-width: 0.1;
+}
+
+.y-axis {
+ stroke-width: 0.5;
+}
+
+
+.axis line{
+  stroke:#FFCFB4;
+}
+
+.axis path{
+  stroke: #FFCFB4;
+}
+
+.axis text{
+  fill: #FFCFB4;
+}  
+
+.text {
+  font-weight: bold;
+  fill: #b9b5b4;
+}
+
+.bar-1 {
+  fill: #8a4365;
+}
+
+.bar-0 {
+  fill: #862e5a;
 }

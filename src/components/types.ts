@@ -1,20 +1,33 @@
+import { Selection } from 'd3-selection';
+import * as d3Axis from 'd3-axis';
 
-export interface ChartMarginsType {
+interface ChartMarginsType {
   top: number,
   right: number,
   bottom: number,
   left: number
 }
 
-export interface ChartSizeType {
+interface ChartSizeType {
   width: number,
   height: number,
 }
 
-export interface ChartConfig {
+interface ChartConfig {
   size: ChartSizeType,
   margins: ChartMarginsType
 }
 
-
 export type ChartConfigType = ChartConfig;
+
+export type AxisSetType = {
+  x: any,
+  y: any
+}
+
+export type ScalesSetType = {
+  x: any,
+  y: any
+}
+
+export type ChartType = Selection<SVGGElement, unknown, null, undefined>;

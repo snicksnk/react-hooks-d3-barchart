@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/react-hooks-d3-barchart/build/static/css/main.e83baf58.chunk.css",
-    "main.js": "/react-hooks-d3-barchart/build/static/js/main.8f7ccc35.chunk.js",
-    "main.js.map": "/react-hooks-d3-barchart/build/static/js/main.8f7ccc35.chunk.js.map",
-    "runtime-main.js": "/react-hooks-d3-barchart/build/static/js/runtime-main.a7e6ca19.js",
-    "runtime-main.js.map": "/react-hooks-d3-barchart/build/static/js/runtime-main.a7e6ca19.js.map",
-    "static/js/2.bbcb1d4d.chunk.js": "/react-hooks-d3-barchart/build/static/js/2.bbcb1d4d.chunk.js",
-    "static/js/2.bbcb1d4d.chunk.js.map": "/react-hooks-d3-barchart/build/static/js/2.bbcb1d4d.chunk.js.map",
-    "index.html": "/react-hooks-d3-barchart/build/index.html",
-    "precache-manifest.81a99295ae3cf561c7edd6bc2e8b12be.js": "/react-hooks-d3-barchart/build/precache-manifest.81a99295ae3cf561c7edd6bc2e8b12be.js",
-    "service-worker.js": "/react-hooks-d3-barchart/build/service-worker.js",
-    "static/css/main.e83baf58.chunk.css.map": "/react-hooks-d3-barchart/build/static/css/main.e83baf58.chunk.css.map",
-    "static/js/2.bbcb1d4d.chunk.js.LICENSE.txt": "/react-hooks-d3-barchart/build/static/js/2.bbcb1d4d.chunk.js.LICENSE.txt"
+    "main.css": "/react-hooks-d3-barchart/static/css/main.e83baf58.chunk.css",
+    "main.js": "/react-hooks-d3-barchart/static/js/main.2da60899.chunk.js",
+    "main.js.map": "/react-hooks-d3-barchart/static/js/main.2da60899.chunk.js.map",
+    "runtime-main.js": "/react-hooks-d3-barchart/static/js/runtime-main.4f4551e7.js",
+    "runtime-main.js.map": "/react-hooks-d3-barchart/static/js/runtime-main.4f4551e7.js.map",
+    "static/js/2.bbcb1d4d.chunk.js": "/react-hooks-d3-barchart/static/js/2.bbcb1d4d.chunk.js",
+    "static/js/2.bbcb1d4d.chunk.js.map": "/react-hooks-d3-barchart/static/js/2.bbcb1d4d.chunk.js.map",
+    "index.html": "/react-hooks-d3-barchart/index.html",
+    "precache-manifest.b8220b5086fc57fc20bd91fd254dcfb3.js": "/react-hooks-d3-barchart/precache-manifest.b8220b5086fc57fc20bd91fd254dcfb3.js",
+    "service-worker.js": "/react-hooks-d3-barchart/service-worker.js",
+    "static/css/main.e83baf58.chunk.css.map": "/react-hooks-d3-barchart/static/css/main.e83baf58.chunk.css.map",
+    "static/js/2.bbcb1d4d.chunk.js.LICENSE.txt": "/react-hooks-d3-barchart/static/js/2.bbcb1d4d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.a7e6ca19.js",
+    "static/js/runtime-main.4f4551e7.js",
     "static/js/2.bbcb1d4d.chunk.js",
     "static/css/main.e83baf58.chunk.css",
-    "static/js/main.8f7ccc35.chunk.js"
+    "static/js/main.2da60899.chunk.js"
   ]
 }

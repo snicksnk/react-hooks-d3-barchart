@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/react-hooks-d3-barchart/precache-manifest.b8220b5086fc57fc20bd91fd254dcfb3.js"
+  "/react-hooks-d3-barchart/precache-manifest.8117ae972935c1e9dd24510dc4b0a4f0.js"
 );
 
 self.addEventListener('message', (event) => {

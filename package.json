@@ -2,7 +2,7 @@
   "name": "hookschart",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://snicksnk.github.io/react-hooks-d3-barchart/build/",
+  "homepage": "https://snicksnk.github.io/react-hooks-d3-barchart/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

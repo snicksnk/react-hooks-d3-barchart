@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { transition as d3Transition } from 'd3-transition';
 
 import * as Scales from './scales';
 
-import { ChartConfigType, AxisSetType, ScalesSetType } from './types'
+import { ChartConfigType, AxisSetType, ScalesSetType, ChartType } from './types'
 import { drawChart } from './drawChart';
 import { drawAxis } from './drawAxis';
 
@@ -14,39 +14,43 @@ select.prototype.transition = d3Transition;
 
 
 const Chart = () => {
-  const svgRef = React.useRef<SVGSVGElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+  const margin = {top: 20, right: 20, bottom: 20, left: 40};
+  const width = 800 - margin.left - margin.right;
+  const height = 450 - margin.top - margin.bottom;
+
+  const values = [[10, 20], [-48, 50], [50], [-20, -25]];
+  const titles = ['Cats', 'Dogs', 'Birds', 'Cows'];
+  
+  const ChartConfig: ChartConfigType = {
+    size: {
+      width,
+      height,
+    },
+    margins: margin
+  };
+
+  const limsX = [ -50, 50 ];
+
+  const chart = useRef<ChartType>();
+
+  useEffect(() => {
+    const { size: { width, height }, margins } = ChartConfig;
+    const svg = select(svgRef.current)
+      .attr("width", width + margins.left + margins.right)
+      .attr("height", height + margins.top + margins.bottom)
+
+
+    chart.current = svg
+      .append('g')
+      .attr("transform", 
+        "translate(" + margins.left + "," + margins.top + ")");
+  }, [ChartConfig]);
 
   useEffect(
     () => {
-      const margin = {top: 20, right: 20, bottom: 20, left: 40};
-      const width = 800 - margin.left - margin.right;
-      const height = 450 - margin.top - margin.bottom;
-
-      const svg = select(svgRef.current)
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-
-
-      const chart =  svg
-        .append('g')
-        .attr("transform", 
-          "translate(" + margin.left + "," + margin.top + ")");
-
-
-      const values = [[10, 20], [-48, 50], [50], [-20, -25]];
-
-      const titles = ['Cats', 'Dogs', 'Birds', 'Cows'];
-
-      const ChartConfig: ChartConfigType = {
-        size: {
-          width,
-          height,
-        },
-        margins: margin
-      }
-
-      const limsX = [ -50, 50 ];
-
+      const { size: { height } } = ChartConfig;
       const scalesSet: ScalesSetType = {
         x: Scales.x(ChartConfig, limsX),
         y: Scales.y(ChartConfig, titles),
@@ -57,13 +61,14 @@ const Chart = () => {
         y: axisLeft(scalesSet.y),
       };
 
-      drawAxis(ChartConfig, chart, axisSet);
-      drawChart(ChartConfig, chart, scalesSet, titles, values);
-
+      if (chart.current) {
+        drawAxis(ChartConfig, chart.current, axisSet);
+        drawChart(ChartConfig, chart.current, scalesSet, titles, values);
+      }
 
     },
-    [svgRef.current]
-  )
+    [ChartConfig, limsX, titles, values ]
+  );
 
   return (
     <svg ref={svgRef}>
@@ -78,18 +83,3 @@ const Chart = () => {
 };
 
 export default Chart;
-
-
-/*
-
-          <feFlood flood-color="#000000" flood-opacity="1" result="COLOR-blue" />
-          <feTurbulence baseFrequency=".025" type="fractalNoise" numOctaves="3" seed="0" result="Texture" />
-          <feOffset dx="-3" dy="4" in="SourceAlpha" result="step1"/>
-          <feDisplacementMap scale="17" in="step1" in2="Texture" result="step2" />
-          <feComposite operator="in" in="Texture" in2 = "step2" result="step3"/>
-          <feComposite operator="in" in="COLOR-blue" in2="step3" result="fill-filter" />
-          <feMerge  result="merge2">
-          <feMergeNode in="fill-filter" />
-          </feMerge>
-
-*/

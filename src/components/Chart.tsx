@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { transition as d3Transition } from 'd3-transition';
@@ -13,16 +13,14 @@ import { drawAxis } from './drawAxis';
 select.prototype.transition = d3Transition;
 
 
-const Chart = () => {
-  const svgRef = useRef<SVGSVGElement | null>(null);
+interface ChartProps { values: number[][]; titles: string[]; };
 
+
+function useChartConfig() {
   const margin = {top: 20, right: 20, bottom: 20, left: 40};
   const width = 800 - margin.left - margin.right;
   const height = 450 - margin.top - margin.bottom;
 
-  const values = [[10, 20], [-48, 50], [50], [-20, -25]];
-  const titles = ['Cats', 'Dogs', 'Birds', 'Cows'];
-  
   const ChartConfig: ChartConfigType = {
     size: {
       width,
@@ -30,6 +28,16 @@ const Chart = () => {
     },
     margins: margin
   };
+
+  const configRef = useRef<ChartConfigType>(ChartConfig);
+
+  return configRef.current;
+}
+
+const Chart = ({ values, titles }: ChartProps) => {
+  const svgRef = useRef<SVGSVGElement | null>(null);
+
+  const ChartConfig = useChartConfig();
 
   const limsX = [ -50, 50 ];
 
@@ -48,6 +56,8 @@ const Chart = () => {
         "translate(" + margins.left + "," + margins.top + ")");
   }, [ChartConfig]);
 
+
+  const axisIsSetted = useRef(false);
   useEffect(
     () => {
       const { size: { height } } = ChartConfig;
@@ -62,8 +72,13 @@ const Chart = () => {
       };
 
       if (chart.current) {
-        drawAxis(ChartConfig, chart.current, axisSet);
-        drawChart(ChartConfig, chart.current, scalesSet, titles, values);
+        if (!axisIsSetted.current) {
+          drawAxis(ChartConfig, chart.current, axisSet);
+          axisIsSetted.current = true;
+        }
+        if (chart.current) {
+          drawChart(ChartConfig, chart.current, scalesSet, titles, values);
+        }
       }
 
     },
@@ -77,7 +92,7 @@ const Chart = () => {
 	        <feDropShadow stdDeviation="5 5" in="SourceGraphic" dx="5" dy="5" flood-color="#000000" flood-opacity="0.5" x="0%" y="0%" width="100%" height="100%" result="dropShadow"/>
         </filter>
       </defs>
-      
+      <g className="chart"></g>
     </svg>
   )
 };

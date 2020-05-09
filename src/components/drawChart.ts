@@ -19,23 +19,37 @@ export function drawChart(
 ) {
   const { x: xScale, y: yScale } = scalesSet;
 
-  console.log('values--', values.map(pair => (pair.map((item, n) => {
+  type preparedValue = { value: number, size: number, n: number};
+
+  const preparedValues: preparedValue[][] = values.map(pair => (pair.map((item, n) => {
     return { value: item, size: pair.length, n };
-  }))));
+  })));
+
+  console.log('d---', preparedValues)
+
+
+  const preparedValues2 = [
+    [
+      {value: 25, size: 2, n: 0},
+      {value: 13, size: 2, n: 1}
+    ],
+    [
+      {value: 25, size: 2, n: 0},
+      {value: 13, size: 2, n: 1}
+    ]
+  ]
   
   const groups = chart
     .selectAll('g.bar-group')
-    .data(values.map(pair => (pair.map((item, n) => {
-      return { value: item, size: pair.length, n };
-    }))))
-    .enter()
+    .data(preparedValues)
+  
+  const groupsAdd = groups.enter()
       .append('g')
       .attr('class', 'bar-group')
       .attr("transform", 
         (_, n) => `translate(0, ${yScale(`${titles[n]}`)})`)
         
-        
-  const bars = groups.selectAll('path')
+  const bars = groupsAdd.selectAll('path')
         .data(item => item)
           .enter()
   

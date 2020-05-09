@@ -30,4 +30,4 @@ export type ScalesSetType = {
   y: any
 }
 
-export type ChartType = Selection<SVGGElement, unknown, null, undefined>;
+export type ChartType = Selection<SVGGElement, unknown, null, undefined>|null;

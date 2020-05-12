@@ -1,5 +1,5 @@
-import { Selection } from 'd3-selection';
-import { ChartConfigType, AxisSetType, ScalesSetType, } from './types'
+import { Selection, select } from 'd3-selection';
+import { ChartConfigType, ScalesSetType } from './types'
 
 
 function drawBar(scalesSet: ScalesSetType, leftOffset: number, topOffset: number, value: number, height: number):string {
@@ -12,51 +12,64 @@ function drawBar(scalesSet: ScalesSetType, leftOffset: number, topOffset: number
 
 export function drawChart(
   config: ChartConfigType,
-  chart: Selection<SVGGElement, unknown, null, undefined>,
+  chart2: Selection<SVGGElement, unknown, null, undefined>,
   scalesSet: ScalesSetType,
   titles: string[],
   values: number[][]
 ) {
   const { x: xScale, y: yScale } = scalesSet;
 
-  type preparedValue = { value: number, size: number, n: number};
+  type preparedValue = { value: number, size: number, n: number, groupName: string };
 
-  const preparedValues: preparedValue[][] = values.map(pair => (pair.map((item, n) => {
-    return { value: item, size: pair.length, n };
+  const preparedValues: preparedValue[][] = values.map((pair, key)  => (pair.map((item, n) => {
+    return { value: item, size: pair.length, n, groupName: titles[key] };
   })));
 
-  console.log('d---', preparedValues)
-
-
-  const preparedValues2 = [
-    [
-      {value: 25, size: 2, n: 0},
-      {value: 13, size: 2, n: 1}
-    ],
-    [
-      {value: 25, size: 2, n: 0},
-      {value: 13, size: 2, n: 1}
-    ]
-  ]
+  const chart = select<SVGGElement, preparedValue[]>('#chart')
   
+
+  // GROUPS 
+
   const groups = chart
-    .selectAll('g.bar-group')
+    .selectAll<SVGGElement, preparedValue[]>('g.bar-group')
     .data(preparedValues)
+
+
+  groups.attr("transform", 
+        (_, n) => `translate(0, ${yScale(`${titles[n]}`)})`);
+
   
-  const groupsAdd = groups.enter()
+  const groupsEnter = groups.enter()
       .append('g')
-      .attr('class', 'bar-group')
-      .attr("transform", 
-        (_, n) => `translate(0, ${yScale(`${titles[n]}`)})`)
-        
-  const bars = groupsAdd.selectAll('path')
-        .data(item => item)
-          .enter()
+      .attr('class', (_ ,n) => `bar-group bar-group-${n}`)
+
+  const groupsUpdate = groupsEnter.merge(groups);
+
+  groupsUpdate.attr("transform", 
+    (_, n) => `translate(0, ${yScale(`${titles[n]}`)})`)
+
+  groups.exit().remove();
+
+
+
+  // BARS
+  const bars = groups.selectAll<SVGPathElement, preparedValue>('path')
+        .data(item => item, d => `${d.groupName}_${d.n}`)
+
+  bars.attr("class", 1)
+
+  const barsEnter = bars.enter().append('path');
+
+  const barsUpdate = barsEnter
+    .merge(bars)
   
-  bars.append('path')
+  barsUpdate
     .attr('class', d => `bar bar-${d.n}`)
     .attr("filter", "url(#filter)")
+    .transition()
+    .duration(1000)
     .attr('d', (item, n, a) => {
+      console.log(item);
       const bandWidth = yScale.bandwidth();
       const barsOffset = 3;
       if (item.size > 1) {
@@ -68,7 +81,11 @@ export function drawChart(
       }
     });
 
-  bars.append('text')
+
+  bars.exit().remove();
+
+  /*
+  barsUpdate.append('text')
     .attr('class', 'text')
     .attr('text-anchor', item => {
       if (item.value > 0) {
@@ -93,4 +110,26 @@ export function drawChart(
       return topOffset;
     })
     .text(d => d.value)
+  */
 }
+
+
+  /*
+  const barsUpdate = groups.selectAll('path').data(item => item);
+    
+  barsUpdate.attr('class', d => `bar bar-${d.n}`)
+    .attr("filter", "url(#filter)")
+    .transition()
+    .duration(2000)
+    .attr('d', (item, n, a) => {
+      const bandWidth = yScale.bandwidth();
+      const barsOffset = 3;
+      if (item.size > 1) {
+        const barSize = bandWidth / item.size;
+        const topOffset = barSize * item.n;
+        return drawBar(scalesSet, config.size.width / 2, topOffset, item.value, barSize - barsOffset);
+      } else {
+        return drawBar(scalesSet, config.size.width / 2, 0, item.value, bandWidth);
+      }
+    });
+  */

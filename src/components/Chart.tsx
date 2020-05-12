@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { select } from 'd3-selection';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { transition as d3Transition } from 'd3-transition';
@@ -92,7 +92,7 @@ const Chart = ({ values, titles }: ChartProps) => {
 	        <feDropShadow stdDeviation="5 5" in="SourceGraphic" dx="5" dy="5" flood-color="#000000" flood-opacity="0.5" x="0%" y="0%" width="100%" height="100%" result="dropShadow"/>
         </filter>
       </defs>
-      <g className="chart"></g>
+      <g id="chart"></g>
     </svg>
   )
 };

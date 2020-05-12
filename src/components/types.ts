@@ -1,4 +1,4 @@
-import { Selection } from 'd3-selection';
+import { Selection, BaseType } from 'd3-selection';
 import * as d3Axis from 'd3-axis';
 
 interface ChartMarginsType {
@@ -30,4 +30,4 @@ export type ScalesSetType = {
   y: any
 }
 
-export type ChartType = Selection<SVGGElement, unknown, null, undefined>|null;
+export type ChartType = Selection<SVGGElement, unknown, null, undefined>;

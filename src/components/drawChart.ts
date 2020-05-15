@@ -1,4 +1,4 @@
-import { Selection, select } from 'd3-selection';
+import { Selection } from 'd3-selection';
 import { ChartConfigType, ScalesSetType } from './types'
 
 
@@ -12,7 +12,7 @@ function drawBar(scalesSet: ScalesSetType, leftOffset: number, topOffset: number
 
 export function drawChart(
   config: ChartConfigType,
-  chart2: Selection<SVGGElement, unknown, null, undefined>,
+  chart: Selection<SVGGElement, unknown, null, undefined>,
   scalesSet: ScalesSetType,
   titles: string[],
   values: number[][]
@@ -25,8 +25,7 @@ export function drawChart(
     return { value: item, size: pair.length, n, groupName: titles[key] };
   })));
 
-  const chart = select<SVGGElement, preparedValue[]>('#chart')
-  
+  // const chart = select<SVGGElement, preparedValue[]>('#chart')
 
   // GROUPS 
 
@@ -50,11 +49,9 @@ export function drawChart(
 
   groups.exit().remove();
 
-
-
   // BARS
   const bars = groups.selectAll<SVGPathElement, preparedValue>('path')
-        .data(item => item, d => `${d.groupName}_${d.n}`)
+    .data(item => item, d => `${d.groupName}_${d.n}`)
 
   bars.attr("class", 1)
 
@@ -69,7 +66,6 @@ export function drawChart(
     .transition()
     .duration(1000)
     .attr('d', (item, n, a) => {
-      console.log(item);
       const bandWidth = yScale.bandwidth();
       const barsOffset = 3;
       if (item.size > 1) {
@@ -84,9 +80,18 @@ export function drawChart(
 
   bars.exit().remove();
 
-  /*
-  barsUpdate.append('text')
-    .attr('class', 'text')
+  // TEXT
+  const title = groups.selectAll<SVGTextElement, preparedValue>('text')
+    .data(item => item, d => `${d.groupName}_${d.n}`)
+
+  const titleEnter = title.enter()
+    .append('text')
+    .attr('class', 'text');
+
+  const titleUpdate = titleEnter
+    .merge(title)
+  
+  titleUpdate
     .attr('text-anchor', item => {
       if (item.value > 0) {
         return 'end';
@@ -97,39 +102,19 @@ export function drawChart(
       }
     })
     .attr('dy', '+.2em')
-    .attr('x', d => {
-      const offset = d.value > 0 ? -3 : 3;
-      return xScale(d.value) + offset;
-    })
-    .attr('y', (d, n) => {
-      const bandWidth = yScale.bandwidth();
-      const barSize = bandWidth / d.size;
-      const topOffset = barSize * d.n + barSize / 2;
-      // const topOffset = barSize * d.n + barSize / 2; 
-
-      return topOffset;
-    })
     .text(d => d.value)
-  */
-}
-
-
-  /*
-  const barsUpdate = groups.selectAll('path').data(item => item);
-    
-  barsUpdate.attr('class', d => `bar bar-${d.n}`)
-    .attr("filter", "url(#filter)")
     .transition()
-    .duration(2000)
-    .attr('d', (item, n, a) => {
-      const bandWidth = yScale.bandwidth();
-      const barsOffset = 3;
-      if (item.size > 1) {
-        const barSize = bandWidth / item.size;
-        const topOffset = barSize * item.n;
-        return drawBar(scalesSet, config.size.width / 2, topOffset, item.value, barSize - barsOffset);
-      } else {
-        return drawBar(scalesSet, config.size.width / 2, 0, item.value, bandWidth);
-      }
-    });
-  */
+    .duration(1000)
+      .attr('x', d => {
+        const offset = d.value > 0 ? -3 : 3;
+        return xScale(d.value) + offset;
+      })
+      .attr('y', (d, n) => {
+        const bandWidth = yScale.bandwidth();
+        const barSize = bandWidth / d.size;
+        const topOffset = barSize * d.n + barSize / 2;
+        // const topOffset = barSize * d.n + barSize / 2; 
+
+        return topOffset;
+      })
+}

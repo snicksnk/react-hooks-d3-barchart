@@ -17,7 +17,7 @@ interface ChartProps { values: number[][]; titles: string[]; };
 
 
 function useChartConfig() {
-  const margin = {top: 20, right: 20, bottom: 20, left: 40};
+  const margin = {top: 20, right: 40, bottom: 20, left: 40};
   const width = 800 - margin.left - margin.right;
   const height = 450 - margin.top - margin.bottom;
 
@@ -88,8 +88,8 @@ const Chart = ({ values, titles }: ChartProps) => {
   return (
     <svg ref={svgRef}>
       <defs>
-        <filter id="filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" color-interpolation-filters="linearRGB">
-	        <feDropShadow stdDeviation="5 5" in="SourceGraphic" dx="5" dy="5" flood-color="#000000" flood-opacity="0.5" x="0%" y="0%" width="100%" height="100%" result="dropShadow"/>
+        <filter id="filter" x="-20%" y="-20%" width="140%" height="140%" filterUnits="objectBoundingBox" primitiveUnits="userSpaceOnUse" colorInterpolationFilters="linearRGB">
+	        <feDropShadow stdDeviation="5 5" in="SourceGraphic" dx="5" dy="5" floodColor="#000000" floodOpacity="0.5" x="0%" y="0%" width="100%" height="100%" result="dropShadow"/>
         </filter>
       </defs>
       <g id="chart"></g>
